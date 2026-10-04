@@ -21,6 +21,33 @@
 - [ ] Traces and evals are defined before launch.
 - [ ] First rollout is limited, monitored, or shadow-mode.
 
+## Per-request model routing checklist
+
+- [ ] A fixed-model baseline and matched quality/cost/latency comparison justify post-MVP routing.
+- [ ] Selected router identity and actual model/reasoning configuration are recorded separately.
+- [ ] Destination credentials, scope, modalities, protocol, and complete-request capacity are checked before dispatch.
+- [ ] Continuation, retry, fallback, and direct-request behavior preserve tool-result pairing and treat provider replay data as opaque.
+- [ ] Branch-state inheritance, version checks, commit timing, and failure behavior are explicit.
+- [ ] Router/classifier/retry/compaction costs count toward the same budget; routing cannot change permissions.
+
+## Runtime configuration event checklist
+
+- [ ] Ordered, versioned instruction/tool changes have authorized origin, scope, and a safe commit boundary.
+- [ ] Replay and compaction preserve the effective configuration without promoting observations into instructions.
+- [ ] Model-visible declarations reconcile with executable capabilities; revocation is enforced at invocation.
+- [ ] Provider-native updates and checkpoint fallback are tested for additions, replacements, and removals.
+- [ ] Removal from active state is distinguished from excluding historical content from future payloads.
+- [ ] Recovery and branch conflicts fail closed rather than restoring stale authority.
+
+## Economic cache warming checklist
+
+- [ ] A no-warming baseline justifies the optional post-MVP optimization.
+- [ ] Exact scope/request identity, best-effort lifetime, and replay-safe output/reasoning options determine eligibility.
+- [ ] Refreshes cannot execute tools or hosted effects, alter conversation state, or preempt real work.
+- [ ] Reuse-weighted avoided cost exceeds refresh cost, and cumulative spend/rate/time limits are enforced.
+- [ ] Context/model/configuration changes, missed deadlines, and cancellation invalidate scheduled and in-flight work.
+- [ ] Successful, failed, aborted, late, and unknown refresh outcomes are accounted for; requested cancellation is not proof of no charge.
+
 ## Hardware agent and board deployment checklist
 
 - [ ] Inference location and dependencies on a running host are explicit.

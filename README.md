@@ -295,6 +295,8 @@ Use [adaptive agent teams](references/adaptive-agent-teams.md) for the post-MVP 
 
 ### Other things the skill is good for
 
+- **"How can one session route requests across models safely?"** -> use [per-request model routing](references/agentic-loop.md#per-request-model-routing) for selected/dispatched identity, target compatibility, and routing-state contracts.
+- **"How can instructions and tools change during a conversation without losing replay semantics?"** -> use [runtime configuration events](references/architecture.md#runtime-instruction-and-tool-configuration-events).
 - **"Which compaction, planning, and action-interface profile fits my model, task mix, and context budget?"** -> use [component diagnostics](references/evals.md#component-diagnostics), which links to the existing mechanism owners and separates efficiency from premature failure.
 - **"How can users act on displayed records without losing UI state or bypassing business limits?"** -> use [presentation and transaction contracts](references/tools-and-permissions.md#presentation-tools-and-rendered-state).
 - **"How should an agent remember user facts while respecting corrections, deletion, and identity boundaries?"** -> use [`references/context-memory-compaction.md`](references/context-memory-compaction.md).
@@ -306,7 +308,7 @@ Use [adaptive agent teams](references/adaptive-agent-teams.md) for the post-MVP 
 - **"How should auto-compaction preserve active work?"** -> use [`references/context-memory-compaction.md`](references/context-memory-compaction.md).
 - **"What is the smallest safe coding-agent harness?"** -> use [`references/coding-agents.md`](references/coding-agents.md).
 - **"How should I evaluate an agent harness?"** -> use [`references/evals.md`](references/evals.md).
-- **"How do I make prompt caching work in a long-running agent?"** -> use [`references/prompt-caching-and-cost.md`](references/prompt-caching-and-cost.md).
+- **"How do I make prompt caching work in a long-running agent, and when does warming pay?"** -> use [`references/prompt-caching-and-cost.md`](references/prompt-caching-and-cost.md), including its optional [economic warming contract](references/prompt-caching-and-cost.md#economic-cache-warming).
 - **"How do I support OpenAI, Anthropic, and OpenAI-compatible APIs?"** -> use [`references/provider-api-patterns.md`](references/provider-api-patterns.md).
 - **"What should I check before launch?"** -> use [`references/checklists.md`](references/checklists.md).
 

@@ -150,6 +150,24 @@ Compare candidate models and effort settings against the same quality floor and 
 
 Measure cost per successful task with failed attempts included in total cost, time to first useful rendered output, full-task latency, and tail percentiles as well as medians. Weight results by observed traffic where available and report difficult-task failures separately. Faster tokens or a cheaper call do not imply faster or cheaper completion. Use [prompt caching and cost](prompt-caching-and-cost.md) for cache measurements and stable-prefix design.
 
+## Routing, configuration, and warming evals
+
+Use the contracts in [per-request routing](agentic-loop.md#per-request-model-routing), [configuration events](architecture.md#runtime-instruction-and-tool-configuration-events), and [economic warming](prompt-caching-and-cost.md#economic-cache-warming). Establish fixed-model and no-warming baselines before enabling these post-MVP optimizations. Keep task outcomes and host controls matched; use [model/configuration sweeps](#model-and-configuration-sweeps) for completion economics rather than judging isolated cheap calls.
+
+| Fixture | Required evidence |
+|---|---|
+| Route to a smaller window or incompatible modality/protocol | Capacity and compatibility are checked against the resolved destination before dispatch; compaction/conversion, a declared fallback, or a visible error follows policy without silent content loss. |
+| Tool continuation, provider failure, classifier failure, and retry | Selected/dispatched identities remain distinct; continuation stickiness follows the declared policy; failed attempts and pending tool results retain correct attribution and pairing. |
+| Fork, restore, concurrent state proposal, failed dispatch, and direct summary request | Branch-state inheritance, expected-version rejection, pre/post-dispatch commit timing, and direct-call state behavior match the contract; recovery cannot invent a successful transition. |
+| Cross-provider route with opaque replay data and caller credentials | The adapter handles or rejects replay incompatibility explicitly; credentials resolve for the authorized destination without forwarding source-provider secrets or changing tool authority. |
+| Instruction section/tool add, change, remove, and supported full checkpoint | Native projection and collapsed-checkpoint projection reconstruct the intended effective state; unsupported operations are rejected or use an explicit fallback. |
+| Revoked tool, stale branch, reordered delta, and compaction during a change | Current host policy denies revoked execution; version/order checks prevent stale configuration; rehydration preserves effective state and authority labels. Inspect payloads separately when old text must be excluded. |
+| Known/unknown TTL, low reuse, changed reasoning/output limit, and expired cache | Eligibility and the economic gate distinguish safe refreshes from unproven replay; expired or incompatible requests do not masquerade as cheap hits. |
+| Delayed timer, new real turn, model/configuration change, cancellation, and late completion | Obsolete refreshes are not dispatched or adopted; real work has priority; abort requests, confirmations, completed work, and ambiguous billing remain distinguishable. |
+| Long idle session, repeated refreshes, failures, and abandoned task | Total costs include routing/classification, warming, retries, compaction, and failed/unknown work. Report realized cache reads, refresh waste, completed-task latency, and quality; scheduled warming and estimated savings are not measured savings. |
+
+Payload-shape tests establish adapter construction, not provider cache reuse or model compliance. Combine them with host-policy probes and measured provider usage when making behavioral or economic claims.
+
 ## Speculative tool execution evals
 
 Compare three execution modes with the same model, instructions, tool implementations, permissions, and task set:

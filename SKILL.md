@@ -2,7 +2,7 @@
 name: agents-best-practices
 description: "Use this skill when designing, generating an MVP blueprint for, auditing, troubleshooting, refactoring, or explaining an agentic harness for any domain. Covers provider-neutral agent architecture for OpenAI, Anthropic, and OpenAI-compatible APIs: agent loops, tool design, record provenance, interactive presentation, user-memory lifecycles, environment-adaptive tools, speculative tool execution, late-bound capabilities, permissions, system prompts, planning, goals, adaptive agent teams, context compaction, memory, skills, MCP/external connectors, public-board communications, hardware agents and board deployment, self-refining recursive harnesses, programmable context, continual refinement, observability, evals, prompt caching, agent-legible environments, feedback loops, and safety."
 metadata:
-  version: "1.11.0"
+  version: "1.12.0"
   scope: "provider-neutral-agent-harness"
   file_policy: "markdown-only"
 ---
@@ -49,6 +49,7 @@ Use this skill for prompts involving any of these intents:
 - build an agent, agentic workflow, AI worker, autonomous assistant, or harness;
 - create a domain-specific MVP agent design, starter harness, implementation blueprint, or first production-safe version;
 - choose between OpenAI, Anthropic, OpenAI-compatible APIs, direct tool loops, hosted tools, or SDKs;
+- route model requests within a session, replay instruction/tool configuration changes, or evaluate paid cache warming;
 - design tools, permissions, guardrails, approval flows, or sandboxing;
 - design agent-rendered interfaces, record provenance, cumulative business limits, or user-memory lifecycles;
 - design an agent for a partially known or changing environment using capability discovery, safe probing, runtime binding, schema verification, or drift invalidation;
@@ -133,14 +134,14 @@ Require host-owned eligibility, permission at physical dispatch, isolated dispos
 - Read [mvp-agent-blueprint.md](references/mvp-agent-blueprint.md) first when the user asks to create a new domain-specific agent or MVP harness.
 - Read [coding-agents.md](references/coding-agents.md) when the requested agent reads, edits, tests, reviews, migrates, or opens changes against a software repository, including measured post-MVP action-interface selection.
 - Read [hardware-agents.md](references/hardware-agents.md) for embedded execution location, launcher-versus-firmware installation, resource-bounded transport, reset-safe state, wake behavior, rollback, and physical commissioning.
-- Read [architecture.md](references/architecture.md) for the full harness model and component boundaries.
+- Read [architecture.md](references/architecture.md) for the full harness model, component boundaries, and trusted runtime instruction/tool configuration events.
 - Read [agent-legibility-feedback-loops.md](references/agent-legibility-feedback-loops.md) for source-of-truth knowledge bases, agent-legible environments, validation loops, mechanical invariants, and recurring cleanup.
-- Read [agentic-loop.md](references/agentic-loop.md) for the provider-neutral loop, step budgets, retries, and loop variants.
+- Read [agentic-loop.md](references/agentic-loop.md) for the provider-neutral loop, step budgets, retries, loop variants, and post-MVP per-request model routing.
 - Read [speculative-tool-execution.md](references/speculative-tool-execution.md) when an advanced code-mode or programmatic-tool harness should prelaunch eligible work during generation while retaining completed-program authority and occurrence-aware claiming.
 - Read [tools-and-permissions.md](references/tools-and-permissions.md) for tool contracts, record provenance, presentation receipts, resulting-state limits, approval logic, structured results, and sandboxing.
 - Read [environment-adaptive-tools.md](references/environment-adaptive-tools.md) when the tool environment is partially known or changes at runtime and needs bootstrap discovery, schema validation, safe probing, exact binding, or drift handling.
 - Read [context-memory-compaction.md](references/context-memory-compaction.md) for context assembly, user-memory lifecycle and source eligibility, layered retrieval, staged elision-before-summary, optional historical-output recall, and handoff preservation.
-- Read [prompt-caching-and-cost.md](references/prompt-caching-and-cost.md) for stable-prefix design, cache-aware context ordering, compaction/cache tradeoffs, telemetry, and cost control.
+- Read [prompt-caching-and-cost.md](references/prompt-caching-and-cost.md) for stable-prefix design, cache-aware context ordering, compaction/cache tradeoffs, telemetry, cost control, and optional economic cache warming.
 - Read [planning-and-goals.md](references/planning-and-goals.md) to distinguish read-only planning mode from execution-time progress scaffolds, and for approval-gated execution, goals, checkpoints, and stopping conditions.
 - Read [workflow-orchestration.md](references/workflow-orchestration.md) for planner-generated workflows, bounded work packets, worker/verifier contexts, integration, durable workflow state, and orchestration anti-patterns.
 - Read [adaptive-agent-teams.md](references/adaptive-agent-teams.md) for post-MVP approach portfolios, shared work intentions, selective finding exchange, and evidence-linked team reallocation.
@@ -149,7 +150,7 @@ Require host-owned eligibility, permission at physical dispatch, isolated dispos
 - Read [system-prompts-instructions.md](references/system-prompts-instructions.md) for system/developer/user instruction hierarchy and prompt templates.
 - Read [provider-api-patterns.md](references/provider-api-patterns.md) for OpenAI, Anthropic, and OpenAI-compatible API implementation patterns.
 - Read [security-observability.md](references/security-observability.md) for guardrails, threat models, approval records, trace design, symptom-based troubleshooting, launch safety gates, and incident response.
-- Read [evals.md](references/evals.md) for evaluation strategy, runtime-state fixtures, cross-capability cases, failure-aware component diagnostics across context budgets, safety trace invariants, model/configuration sweeps, and launch criteria.
+- Read [evals.md](references/evals.md) for evaluation strategy, runtime-state fixtures, cross-capability cases, failure-aware component diagnostics across context budgets, safety trace invariants, model/configuration sweeps, routing/configuration/warming probes, and launch criteria.
 - Read [checklists.md](references/checklists.md) for condensed implementation and audit checklists.
 - Read [source-links.md](references/source-links.md) for official links and provider-specific references.
 - Read [coverage-audit.md](references/coverage-audit.md) to verify the skill covers the requested harness topics.
@@ -160,8 +161,8 @@ When the user asks for architecture guidance, produce a concrete architecture, n
 
 0. **MVP boundary**: smallest useful version, assumptions, non-goals, and launch criteria.
 1. **Harness boundary**: what the model does versus what application code does.
-2. **Loop**: how model calls, tool calls, tool results, stopping, and retries work.
-3. **Instructions**: system/developer/user instruction hierarchy and scoped memory.
+2. **Loop**: how model calls, tool calls, tool results, stopping, and retries work; when routing is requested, state selected/dispatched identities, compatibility, continuation policy, and routing-state semantics.
+3. **Instructions**: system/developer/user instruction hierarchy and scoped memory; when runtime changes are requested, include the authorized configuration timeline, effective-state replay, and provider projection.
 4. **Tools**: tool registry, schemas, outputs, risk classes, permissions, and approval points.
 5. **Environment adaptation, when requested**: stable bootstrap, discovery, descriptor provenance, safe probes, exact bindings, drift invalidation, and fallback.
 6. **Context**: retrieval, memory, staged compaction when context pressure warrants it, recall utility, cache-aware ordering, and rehydration.
