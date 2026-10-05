@@ -269,6 +269,21 @@ Use [adaptive agent teams](adaptive-agent-teams.md) for the contracts and [adapt
 - [ ] Any self-update policy names its canonical source, keeps package revisions consistent, preserves local changes, respects installation permissions, and discloses unverified freshness.
 - [ ] Predictive loading is measured against on-demand loading and preserves version, scope, and cache ordering.
 
+## Always-on and durable runtime checklist
+
+- [ ] Availability, recoverability, ownership topology, and demonstrated storage failure classes are stated separately.
+- [ ] Accepted/queued/placed/answered/withdrawn receipts and request-identity payload/retention policy survive restart.
+- [ ] Follow-up, steering, passive-write, and control lanes have explicit safe boundaries and failure dispositions.
+- [ ] Local transcript/task/document/receipt commits publish only after settlement; uncertain storage/adoption seals mutation until reconciliation.
+- [ ] External effect intent/outcome windows and persisted/current replay eligibility resolve through the existing tool policy.
+- [ ] Task checkpoints, definition versions, migrations, blocked work, invocation fencing, and orphan disposition are explicit.
+- [ ] Held outcomes, owned foreground drain, terminal receipts, background boundaries, cancellation, and suspension remain distinguishable.
+- [ ] Document scope/incarnation/history/fork policy and commit-granular historical copying cannot copy live tasks or authority accidentally.
+- [ ] Snapshot attachment, delivery/replay cursor types, overflow/gap recovery, count/byte limits, and active-callback cleanup are tested.
+- [ ] Concurrent compaction pins its range, preserves the new tail, rejects stale publication, and accounts for stale/unknown attempts.
+- [ ] Takeover fences stale writers; wakeups revalidate authority and stop under goal/deadline/budget rules.
+- [ ] Crash-window, cancellation, fork, migration, observer, and compaction probes pass with unresolved effects and data-loss exposure reported.
+
 ## Self-refining recursive harness checklist
 
 - [ ] The advanced profile is justified by measured baseline failures or gains and marked post-MVP.
@@ -285,7 +300,7 @@ Use [adaptive agent teams](adaptive-agent-teams.md) for the contracts and [adapt
 - [ ] Regressions trigger automatic rollback or quarantine; promotion requires explicit evidence.
 - [ ] Changes remain session-local by default; cross-session or global promotion has a separate gate.
 - [ ] Executable skill changes receive sandbox, dependency, capability, provenance, and regression checks.
-- [ ] Retained, daemon-backed, and scheduled runs handle cancellation, recovery, missed ticks, backpressure, idempotency, attribution, and garbage collection.
+- [ ] Retained children handle cancellation, recovery, message backpressure, idempotency, attribution, and garbage collection; resident/scheduled runs pass the [always-on checklist](#always-on-and-durable-runtime-checklist).
 - [ ] Adversarial evals cover persistent prompt injection, reward hacking, authority escalation, cross-session leakage, and unbounded state growth.
 
 ## MCP/external connector checklist

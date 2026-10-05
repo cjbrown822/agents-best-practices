@@ -293,6 +293,25 @@ Agent  > Start with measured single-agent and ordinary worker baselines.
 
 Use [adaptive agent teams](references/adaptive-agent-teams.md) for the post-MVP portfolio contracts and [team evals](references/evals.md#adaptive-agent-team-evals) for matched baselines, ablations, and failure probes. Packet execution, child lifecycle, and independent verification remain with their existing owners, linked from the profile.
 
+### Case 11 - Build an always-on agent with durable sessions
+
+Your service must accept work while another task is active, recover application state after restart, and let users reconnect to current progress.
+
+```text
+You    > Design an always-on operations agent that accepts new requests,
+         keeps task and application state, and recovers after restart.
+
+Agent  > Measure a simpler resumable baseline first. For the advanced
+         runtime, distinguish accepted input from completed work and
+         commit local state before publishing it. Give active tasks an
+         owner and explicit completion/cancellation rules. Declare how
+         application documents behave on forks and how observers regain
+         current state after disconnecting. Wake the model only when work
+         is due, within the existing permission and budget limits.
+```
+
+Use [Always-on Agents and Durable Runtime](references/always-on-agents.md) for these post-MVP contracts. Service availability and durable recovery are separate from inference activity and autonomy; this profile can serve an ordinary single agent without recursive delegation or self-refinement.
+
 ### Other things the skill is good for
 
 - **"How can one session route requests across models safely?"** -> use [per-request model routing](references/agentic-loop.md#per-request-model-routing) for selected/dispatched identity, target compatibility, and routing-state contracts.
@@ -329,6 +348,7 @@ A reference for people building agentic systems where the model is only one part
 - workflow orchestration for large decomposable tasks,
 - post-MVP adaptive teams for distinct research approaches and evidence-driven reallocation,
 - goal-like loops with budgets, checkpoints, validation, and stop rules,
+- post-MVP always-on services with durable inputs, owned tasks, application state, and reconnecting observations,
 - context, memory, retrieval, and auto-compaction,
 - skills, MCP, and external connector governance,
 - opt-in public-board communication with explicit audience disclosure and publishing approval,
@@ -358,6 +378,7 @@ agents-best-practices/
     ├── mvp-agent-blueprint.md                # domain-specific MVP harness blueprint
     ├── coding-agents.md                      # repository-facing coding-agent harness overlay
     ├── architecture.md                       # component model and harness boundaries
+    ├── always-on-agents.md                   # durable inputs, task ownership, application state, observers
     ├── agentic-loop.md                       # loop invariants, retries, budgets, stopping
     ├── tools-and-permissions.md              # typed tools, risk classes, approvals
     ├── hardware-agents.md                    # board installation, resources, reset recovery, commissioning

@@ -352,6 +352,27 @@ Measure task quality, validated coverage, false-success rate, cost to reach acce
 
 Launch only when the profile improves a declared outcome over the simpler baselines at the required quality floor and within the resource envelope. Authority, ownership, accounting, stale-state, and independent-acceptance probes must have no unresolved control failures; report the trials and observed failures rather than treating a passing suite as universal proof. Keep adaptive allocation disabled when it cannot justify its overhead or when these invariants regress. Acceptance still follows the parent goal and validation policy, not team consensus, scale, or inactivity.
 
+## Always-on and durable runtime evals
+
+Use [always-on agents](always-on-agents.md) for runtime contracts and [concurrent compaction publication](context-memory-compaction.md#concurrent-compaction-publication) for summary placement. Compare a durable single worker with the request-scoped baseline before adding background work or takeover. Keep model, tasks, authority, and resource limits matched; measure accepted-work loss/duplication, recovery time, unresolved effects, false completion, observer lag/gaps, resource growth, and completed-task cost.
+
+| Probe | Required observed result |
+|---|---|
+| Disconnect after admission; retry the same ID, then change its payload | One accepted intent/receipt under the declared conflict and retention policy; admission is not scored as an answer or exactly-once effect. |
+| Busy steering/follow-up/write; withdrawal before and after placement; run failure | Declared ordering and boundary apply; control remains usable; recovery exposes every queued/placed/withdrawn disposition. |
+| Reject storage; lose acknowledgement; fail adoption after commit | Rejection has no partial effect; uncertain state seals mutations and reconciles on reopen; no uncommitted view is published. |
+| Crash before intent, after external acceptance, and before outcome commit | Recorded and current replay policies govern recovery; unknown effects reconcile without blind writes or fabricated success. |
+| Missing/reloaded definition; old/new checkpoint version; migration failure | Compatible work resumes with provenance; incompatible work stays blocked or takes an explicit orphan disposition without invented cleanup. |
+| Owner returns a result with a live foreground child; child fails during fail-fast | Terminal receipt waits for required owned work; held result is not scored as settled completion; parent outcome follows declared policy. |
+| Cancel wait/task/conversation/full background set; noncooperative tool; close/reopen | Each lifetime boundary is observed; abort intent fences later runtime writes; compensation/unknown effects remain distinct from marking; close preserves recoverable work. |
+| Fork inside a multi-entry commit with historical/current/fresh documents | Declared transaction granularity and policies hold; independent incarnations and stored versions survive; task state/current authority are not copied accidentally. |
+| Snapshot attachment races a commit; observer stalls or reconnects after a gap | No acquisition gap; bounded count/bytes; snapshot convergence or retained replay matches the promise; no lossless-audit claim from coalesced views. |
+| Retire/recreate a document; stop with a callback already running | Old incarnation does not follow recreation; active-callback stop/join policy and terminal delivery are explicit. |
+| Concurrent summaries finish out of order; new tail/reset/edit appears; crash around submission/placement | Valid cut wins under the declared equal-cut policy; no tail/configuration loss or duplicate placement; stale/unknown cost remains accounted for. |
+| Process kill and declared host/power failures; takeover with stale writer; duplicate/late wakeup | Recovery matches the storage failure class; fencing holds before takeover; wakeup admission rechecks authority and budgets; acknowledgement does not overstate durability. |
+
+Use controlled interleavings and actual reopened storage, recording source/runtime/storage revisions and failure injection boundaries. Process-crash probes do not substitute for host/power-loss tests, and adapter conformance does not establish distributed ownership. Gate unattended rollout on no unresolved admission, authority, publication, ownership, or false-completion failures in the declared trials; suspend background/takeover features when they cannot justify their complexity.
+
 ## Self-refinement evals
 
 Online refinement is an advanced, post-MVP feature. Compare the same tasks and model under at least these conditions:

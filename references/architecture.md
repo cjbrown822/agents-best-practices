@@ -196,6 +196,10 @@ Can continue across multiple turns or sessions toward a measurable objective. Re
 
 Move up levels only when evals show the simpler level is insufficient.
 
+## Always-on agents and durable runtime
+
+Always-on describes a service that remains available to accept events and resume bounded work, even while inference is idle. Durability describes which accepted inputs, state changes, and outcomes survive specified failures. Neither determines an autonomy level, requires continuously running inference, or implies recursion, self-refinement, or high availability. Use [Always-on Agents and Durable Runtime](always-on-agents.md#taxonomy-and-boundaries) for the post-MVP acceptance, local-commit, task-ownership, application-state, observation, and resident-recovery contracts; keep the simpler request-scoped or resumable baseline first.
+
 ## Minimal viable harness
 
 Start with:

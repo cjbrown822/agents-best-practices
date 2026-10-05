@@ -1,8 +1,8 @@
 ---
 name: agents-best-practices
-description: "Use this skill when designing, generating an MVP blueprint for, auditing, troubleshooting, refactoring, or explaining an agentic harness for any domain. Covers provider-neutral agent architecture for OpenAI, Anthropic, and OpenAI-compatible APIs: agent loops, tool design, record provenance, interactive presentation, user-memory lifecycles, environment-adaptive tools, speculative tool execution, late-bound capabilities, permissions, system prompts, planning, goals, adaptive agent teams, context compaction, memory, skills, MCP/external connectors, public-board communications, hardware agents and board deployment, self-refining recursive harnesses, programmable context, continual refinement, observability, evals, prompt caching, agent-legible environments, feedback loops, and safety."
+description: "Use this skill when designing, generating an MVP blueprint for, auditing, troubleshooting, refactoring, or explaining an agentic harness for any domain. Covers provider-neutral agent architecture for OpenAI, Anthropic, and OpenAI-compatible APIs: agent loops, tool design, record provenance, interactive presentation, user-memory lifecycles, environment-adaptive tools, speculative tool execution, late-bound capabilities, permissions, system prompts, planning, goals, always-on agents and durable runtime, adaptive agent teams, context compaction, memory, skills, MCP/external connectors, public-board communications, hardware agents and board deployment, self-refining recursive harnesses, programmable context, continual refinement, observability, evals, prompt caching, agent-legible environments, feedback loops, and safety."
 metadata:
-  version: "1.12.0"
+  version: "1.13.0"
   scope: "provider-neutral-agent-harness"
   file_policy: "markdown-only"
 ---
@@ -55,9 +55,10 @@ Use this skill for prompts involving any of these intents:
 - design an agent for a partially known or changing environment using capability discovery, safe probing, runtime binding, schema verification, or drift invalidation;
 - reduce code-mode or programmatic-tool latency through speculative execution, partial-program analysis, futures, exact claim semantics, or cancellation of unused work;
 - create planning mode, workflow orchestration, goal mode, todo tracking, or long-running task behavior;
+- build an always-on agent service or durable session with accepted-input receipts, task ownership, application state, restart recovery, or reconnecting observers;
 - design collaborating agent teams with distinct approaches, shared work awareness, finding exchange, or evidence-driven reassignment;
 - add context compaction, memory, retrieval, scoped instructions, or prompt hierarchies;
-- design a recursive language model (RLM), programmable-context runtime, self-refining or continual harness, retained child agents, daemon-backed or scheduled agent, or executable skills;
+- design a recursive language model (RLM), programmable-context runtime, self-refining or continual harness, retained child agents, or executable skills;
 - build or install a hardware/embedded agent, flash an agent to a board, preserve device identity during an update, or debug its resource and wake behavior;
 - attach Agent Skills, reusable workflows, MCP servers, external connectors, or tool search;
 - design agent communication through public boards with explicit public-audience disclosure, user approval, and outbound-data controls;
@@ -111,9 +112,15 @@ Use this mode when the useful tool catalogue, schemas, versions, or implementati
 
 Require a small trusted bootstrap interface, host-owned capability ledger, provenance-labeled descriptors, bounded read-only or isolated probes, opaque scope-and-version bindings, call-time permission checks, and drift invalidation. Discovery, generated code, and inferred schemas must never grant authority. Keep this post-MVP unless adapting to changing environments is the product's primary job; even then, establish a fixed read-only baseline first.
 
+## Always-on Agent and Durable Runtime Mode
+
+Use this mode when the user requests an always-on service, recoverable sessions, accepted inputs during active work, durable task/application state, or observer reconnection. Read [always-on-agents.md](references/always-on-agents.md) with the loop, tool, context, security, and eval owners. Keep this post-MVP: measure a simpler request-scoped or resumable baseline first. Availability, persistence, inference activity, and authority are separate choices; ordinary always-on operation does not require recursion or self-refinement.
+
+Return the acceptance and commit boundary, input/control lanes, owned task lifecycle, document scope and fork policy, observation/reconnection contract, resident ownership, recovery, and aggregate limits. Reuse the existing goals, permissions, compaction, and child protocols; a durable submission receipt or idle generation is not proof of completed work.
+
 ## Advanced Recursive and Continual Harness Mode
 
-Use this mode only when the user explicitly asks for programmable context, recursive execution, retained children, continual refinement, executable skills, or daemon/scheduled autonomy. Treat it as post-MVP: establish a measured single-loop baseline first, then read [self-refining-recursive-harnesses.md](references/self-refining-recursive-harnesses.md) together with the context, workflow, permission, security, and eval references.
+Use this mode only when the user explicitly asks for programmable context, recursive execution, retained children, continual refinement, or executable skills. Treat it as post-MVP: establish a measured single-loop baseline first, then read [self-refining-recursive-harnesses.md](references/self-refining-recursive-harnesses.md) together with the context, workflow, permission, security, and eval references. For resident operation or scheduled re-entry alone, use [Always-on Agent and Durable Runtime Mode](#always-on-agent-and-durable-runtime-mode).
 
 Make the context representation, recursive unit, mutable state, promotion scope, lifecycle, budgets, validation probes, and rollback path explicit. Keep base authority, permission enforcement, credentials, budgets, and evaluation policy outside the mutable surface.
 
@@ -135,6 +142,7 @@ Require host-owned eligibility, permission at physical dispatch, isolated dispos
 - Read [coding-agents.md](references/coding-agents.md) when the requested agent reads, edits, tests, reviews, migrates, or opens changes against a software repository, including measured post-MVP action-interface selection.
 - Read [hardware-agents.md](references/hardware-agents.md) for embedded execution location, launcher-versus-firmware installation, resource-bounded transport, reset-safe state, wake behavior, rollback, and physical commissioning.
 - Read [architecture.md](references/architecture.md) for the full harness model, component boundaries, and trusted runtime instruction/tool configuration events.
+- Read [always-on-agents.md](references/always-on-agents.md) for post-MVP service availability and durability boundaries, atomic local publication, accepted inputs/control lanes, owned tasks, application documents/forks, observer convergence, resident ownership, and recovery.
 - Read [agent-legibility-feedback-loops.md](references/agent-legibility-feedback-loops.md) for source-of-truth knowledge bases, agent-legible environments, validation loops, mechanical invariants, and recurring cleanup.
 - Read [agentic-loop.md](references/agentic-loop.md) for the provider-neutral loop, step budgets, retries, loop variants, and post-MVP per-request model routing.
 - Read [speculative-tool-execution.md](references/speculative-tool-execution.md) when an advanced code-mode or programmatic-tool harness should prelaunch eligible work during generation while retaining completed-program authority and occurrence-aware claiming.
@@ -145,7 +153,7 @@ Require host-owned eligibility, permission at physical dispatch, isolated dispos
 - Read [planning-and-goals.md](references/planning-and-goals.md) to distinguish read-only planning mode from execution-time progress scaffolds, and for approval-gated execution, goals, checkpoints, and stopping conditions.
 - Read [workflow-orchestration.md](references/workflow-orchestration.md) for planner-generated workflows, bounded work packets, worker/verifier contexts, integration, durable workflow state, and orchestration anti-patterns.
 - Read [adaptive-agent-teams.md](references/adaptive-agent-teams.md) for post-MVP approach portfolios, shared work intentions, selective finding exchange, and evidence-linked team reallocation.
-- Read [self-refining-recursive-harnesses.md](references/self-refining-recursive-harnesses.md) for strict RLM and RLM-inspired patterns, programmable context, recursive execution units, retained children, continual refinement, executable skills, and long-running lifecycle controls.
+- Read [self-refining-recursive-harnesses.md](references/self-refining-recursive-harnesses.md) for strict RLM and RLM-inspired patterns, programmable context, recursive execution units, retained child protocols, continual refinement, and executable skills.
 - Read [skills-and-connectors.md](references/skills-and-connectors.md) for Agent Skills, progressive disclosure, predictive loading, MCP, external connectors, tool search, and attachment strategy. For public-board communication, use its [public disclosure and publication contract](references/skills-and-connectors.md#agent-communication-via-public-boards).
 - Read [system-prompts-instructions.md](references/system-prompts-instructions.md) for system/developer/user instruction hierarchy and prompt templates.
 - Read [provider-api-patterns.md](references/provider-api-patterns.md) for OpenAI, Anthropic, and OpenAI-compatible API implementation patterns.
@@ -177,6 +185,7 @@ When the user asks for architecture guidance, produce a concrete architecture, n
 15. **Advanced recursive/continual profile, when requested**: context handles, recursive unit, retained lifecycle, mutable state boundary, observed validation, promotion, and rollback.
 16. **Experimental speculative execution, when requested**: eligibility, exact claim identity, isolated state, waste budgets, cancellation evidence, and parity evaluation against speculation-off.
 17. **Adaptive agent teams, when requested**: distinct approach ownership, work-intent overlap and declared replication, communication dependence, versioned portfolio decisions, stale-result handling, and independently validated completion.
+18. **Always-on/durable runtime, when requested**: accepted-input and local-commit semantics, owned task completion, application-state fork policies, reconnecting observations, resident ownership, and restart recovery.
 
 For hardware requests, append the target/runtime inventory, installation route and exact write boundary, resource/deadline budget, preserved state and recovery plan, and evidence split between host checks and physical-board commissioning.
 
